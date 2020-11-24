@@ -11,24 +11,28 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
-  bot.notify(message.channel.id, new Date());
+  const {channel} = message;
+
+  bot.notify(channel.id, new Date());
 
   switch(message.content){
 
     case '!autobump':
-      bot.configure(message.channel.id, msg =>{
-          message.channel.send(msg);
+      bot.configure(channel.id, () =>{
+          channel.send('Autobumptastic');
       });
       break;
 
     case '!debump':
-      bot.remove(message.channel.id, msg => {
-        message.channel.send(msg);
-      });
+      if(bot.remove(channel.id)){
+        channel.send('Stopping autobumping');
+      } else {
+        channel.send(`I wasn't doing anything?`);
+      }
       break;
 
     case '!bump':
-      message.channel.send('TheCodersThrone');
+      channel.send('TheCodersThrone');
       break;
   }
 });
