@@ -16,13 +16,13 @@ client.on('message', message => {
   switch(message.content){
 
     case '!autobump':
-      bot.configure(message.channel.id, function (msg) {
+      bot.configure(message.channel.id, msg =>{
           message.channel.send(msg);
       });
       break;
 
     case '!debump':
-      bot.remove(message.channel.id, function (msg) {
+      bot.remove(message.channel.id, msg => {
         message.channel.send(msg);
       });
       break;
