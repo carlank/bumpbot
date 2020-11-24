@@ -1,39 +1,39 @@
 class Bot {
     constructor(waitingTime) {
-        this.channels = {};
+        this.channels = new Map();
         this.waitingTime = waitingTime;
     }
 
     notify(channel, date) {
-        if (this.channels.hasOwnProperty(channel)) {
-            this.channels[channel].updated = date;
+        if (this.channels.has(channel)) {
+            this.channels.get(channel).updated = date;
         }
     }
 
     configure(channel, callback) {
-        if (this.channels[channel]) {
-            this.channels[channel].callback('Already autobumping!');
+        if (this.channels.has(channel)) {
+            this.channels.get(channel).callback('Already autobumping!');
             return;
         }
-        this.channels[channel] = {"callback": callback, "updated": new Date()};
+        this.channels.set(channel, {"callback": callback, "updated": new Date()});
         callback('Autobumping!');
     }
 
     remove(channel, callback) {
-        if (!this.channels[channel]) {
+        if (!this.channels.has(channel)) {
             callback('I wasn\'t doing anything?');
             return;
         }
-        delete this.channels[channel];
+        this.channels.delete(channel);
         callback('Stopped bumping');
     }
 
     reviveChannels(date) {
-        for (let channel in this.channels) {
-            if (date.getTime() - this.channels[channel].updated.getTime() > this.waitingTime) {
-                this.channels[channel].callback();
+        this.channels.forEach((channel) => {
+            if (date.getTime() - channel.updated.getTime() > this.waitingTime) {
+                channel.callback();
             }
-        }
+        });
     }
 }
 
