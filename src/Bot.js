@@ -19,8 +19,12 @@ class Bot {
      * @param  {String}   channel  Channel ID
      * @param  {Number}   delay    Time between bumps in seconds
      * @param  {Function} callback Callback to execute upon revival
+     * @throws When refused
      */
     configure(channel, delay, callback) {
+        if(delay < 10){
+            throw `That's too often! Choose a time over 10 seconds.`;
+        }
         this.channels.set(channel, {callback, delay, updated: new Date()});
     }
 
@@ -29,7 +33,7 @@ class Bot {
      * @param  {String}   channel  Channel ID
      * @return {Boolean}           True if removed, false if not present
      */
-    remove(channel, callback) {
+    remove(channel) {
         return this.channels.delete(channel);
     }
 
@@ -38,9 +42,7 @@ class Bot {
      * @param  {Date}    date  Date of revival, normally now.
      */
     reviveChannels(date) {
-        // console.log('revive');
         this.channels.forEach(channel => {
-            console.log((date.getTime() - channel.updated.getTime())/ 1000, channel.delay)
             if (date.getTime() - channel.updated.getTime() > channel.delay * 1000) {
                 channel.callback();
             }

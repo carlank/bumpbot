@@ -21,25 +21,22 @@ client.on('message', message => {
   const args = content.trim().split(' ');
   const command = args.shift().toLowerCase();
 
-
-
   switch(command){
 
     case '!autobump':
       const delay = args[0] || 10 * 60; // Ten minute default delay
-      if(delay < 10){
-        channel.send(`That's too often! Choose a time over 10 seconds.`)
-        break;
-      }
-      channel.send(`Autobumping every ${delay} seconds!`);
-      bot.configure(channel.id, delay, () =>{
+      try {
+        bot.configure(channel.id, delay, () => {
           const {lastMessage} = channel;
-          // console.log('message', lastMessage.author, client.user);
-          if(lastMessage && lastMessage.author === client.user){
+          if (lastMessage && lastMessage.author === client.user) {
             lastMessage.delete();
           }
           channel.send('Autobumptastic');
-      });
+        });
+        channel.send(`Autobumping every ${delay} seconds!`);
+      } catch (e) {
+        channel.send(`Not autobumping: ` + e);
+      }
       break;
 
     case '!debump':

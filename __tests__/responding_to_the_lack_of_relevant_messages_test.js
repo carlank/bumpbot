@@ -46,18 +46,11 @@ test('not responding on removed channels', () => {
     bot.configure('test-channel', 10, function () {
         sent = true;
     });
-    bot.remove('test-channel', function () {});
+    bot.remove('test-channel');
 
     bot.notify('test-channel', new Date(0));
 
     bot.reviveChannels(new Date(15 * 1000));
 
     expect(sent).toBe(false);
-});
-
-test('responding with refusal when removing an already removed channel', () => {
-    const bot = new Bot();
-    const successfullyRemoved = bot.remove('test-channel');
-
-    expect(successfullyRemoved).toBe(false);
 });
