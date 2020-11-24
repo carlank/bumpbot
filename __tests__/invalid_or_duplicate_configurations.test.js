@@ -17,3 +17,11 @@ test('overrides configuration when configuring an already configured channel', (
 
     expect(message).toBe('verified');
 });
+
+test('refuses timeouts below 10 seconds', () => {
+    const bot = new Bot();
+
+    expect(() => {
+        bot.configure('test-channel', 5, function () {})
+    }).toThrow('10 seconds');
+});

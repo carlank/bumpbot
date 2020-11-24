@@ -19,8 +19,12 @@ class Bot {
      * @param  {String}   channel  Channel ID
      * @param  {Number}   delay    Time between bumps in seconds
      * @param  {Function} callback Callback to execute upon revival
+     * @throws When refused
      */
     configure(channel, delay, callback) {
+        if(delay < 10){
+            throw `That's too often! Choose a time over 10 seconds.`;
+        }
         this.channels.set(channel, {callback, delay, updated: new Date()});
     }
 
