@@ -40,7 +40,7 @@ client.on('message', message => {
       break;
 
     case '!bump':
-      message.channel.send('TheCodersThrone');
+      message.channel.send('test');
       break;
   }
 });
