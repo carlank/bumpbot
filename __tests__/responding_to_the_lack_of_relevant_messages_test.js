@@ -52,7 +52,6 @@ test('not responding on removed channels', () => {
         sent = true;
     });
     bot.remove('test-channel', function () {});
-    sent = false;
 
     bot.notify('test-channel', new Date(10000000));
 
@@ -61,18 +60,22 @@ test('not responding on removed channels', () => {
     expect(sent).toBe(false);
 });
 
-// test('responding with refusal when configuring an already configured channel', () => {
-//     let message = '';
-//     const bot = new Bot(120);
-//     bot.configure('test-channel', function (msg) {
-//         message = msg;
-//     });
-//     message = '';
+test('overridding configuration when configuring an already configured channel', () => {
+    let message = '';
+    const bot = new Bot(120);
+    bot.configure('test-channel', function () {
+        message = 'should never happen';
+    });
+    bot.configure('test-channel', function () {
+        message = 'verified'
+    });
 
-//     bot.configure('test-channel', function () {});
+    bot.notify('test-channel', new Date(10000000));
 
-//     expect(message).toBe('Already autobumping!');
-// });
+    bot.reviveChannels(new Date(20000000));
+
+    expect(message).toBe('verified');
+});
 
 test('responding with refusal when removing an already removed channel', () => {
     const bot = new Bot(120);
