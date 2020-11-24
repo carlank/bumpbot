@@ -46,7 +46,7 @@ test('not responding on removed channels', () => {
     bot.configure('test-channel', 10, function () {
         sent = true;
     });
-    bot.remove('test-channel', function () {});
+    bot.remove('test-channel');
 
     bot.notify('test-channel', new Date(0));
 

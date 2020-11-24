@@ -29,7 +29,7 @@ class Bot {
      * @param  {String}   channel  Channel ID
      * @return {Boolean}           True if removed, false if not present
      */
-    remove(channel, callback) {
+    remove(channel) {
         return this.channels.delete(channel);
     }
 
@@ -40,7 +40,7 @@ class Bot {
     reviveChannels(date) {
         // console.log('revive');
         this.channels.forEach(channel => {
-            console.log((date.getTime() - channel.updated.getTime())/ 1000, channel.delay)
+            console.log((date.getTime() - channel.updated.getTime())/ 1000, channel.delay);
             if (date.getTime() - channel.updated.getTime() > channel.delay * 1000) {
                 channel.callback();
             }
