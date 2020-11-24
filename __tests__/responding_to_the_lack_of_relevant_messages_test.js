@@ -61,26 +61,22 @@ test('not responding on removed channels', () => {
     expect(sent).toBe(false);
 });
 
-test('responding with refusal when configuring an already configured channel', () => {
-    let message = '';
-    const bot = new Bot(120);
-    bot.configure('test-channel', function (msg) {
-        message = msg;
-    });
-    message = '';
+// test('responding with refusal when configuring an already configured channel', () => {
+//     let message = '';
+//     const bot = new Bot(120);
+//     bot.configure('test-channel', function (msg) {
+//         message = msg;
+//     });
+//     message = '';
 
-    bot.configure('test-channel', function () {});
+//     bot.configure('test-channel', function () {});
 
-    expect(message).toBe('Already autobumping!');
-});
+//     expect(message).toBe('Already autobumping!');
+// });
 
 test('responding with refusal when removing an already removed channel', () => {
-    let message = '';
     const bot = new Bot(120);
+    const successfullyRemoved = bot.remove('test-channel');
 
-    bot.remove('test-channel', function (msg) {
-        message = msg;
-    });
-
-    expect(message).toBe('I wasn\'t doing anything?');
+    expect(successfullyRemoved).toBe(false);
 });
