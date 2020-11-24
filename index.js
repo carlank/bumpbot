@@ -7,7 +7,7 @@ const client = new Client();
 const monitoredChannels = new Map();
 
 // in ms
-const bumpInterval = 10 * 1000;
+const bumpInterval = 2 * 1000;
 
 client.on('ready', () => {
   console.log('READY');
