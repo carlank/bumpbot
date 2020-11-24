@@ -11,6 +11,9 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
+  if(message.author.bot || !message.startsWith('!')){
+    return;
+  }
   const {channel} = message;
 
   bot.notify(channel.id, new Date());
