@@ -1,0 +1,24 @@
+{
+  "name": "bumpbot",
+  "version": "0.0.1",
+  "description": "A basic Discord bot, by the community at The Coding Throne",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^12.5.0",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carlank/bumpbot.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/carlank/bumpbot/issues"
+  },
+  "homepage": "https://github.com/carlank/bumpbot#readme"
+}
