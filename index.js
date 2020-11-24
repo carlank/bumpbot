@@ -30,7 +30,7 @@ client.on('message', message => {
       if(delay < 10){
         channel.send(`That's too often! Choose a time over 10 seconds.`)
       }
-      channel.send('Autobumping');
+      channel.send(`Autobumping every ${delay} seconds!`);
       bot.configure(channel.id, delay, () =>{
           const {lastMessage} = channel;
           // console.log('message', lastMessage.author, client.user);
