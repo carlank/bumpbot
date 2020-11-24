@@ -2,83 +2,61 @@ const Bot = require('../src/Bot.js');
 
 test('responding if the messages are old', () => {
     let sent = false;
-    const bot = new Bot(120);
-    bot.configure('test-channel', function () {
+    const bot = new Bot();
+    bot.configure('test-channel', 10, function () {
         sent = true;
     });
-    sent = false;
 
-    bot.notify('test-channel', new Date(10000000));
-
-    bot.reviveChannels(new Date(10000121));
-
+    bot.notify('test-channel', new Date(0));
+    bot.reviveChannels(new Date(15 * 1000));
     expect(sent).toBe(true);
 });
 
 test('not responding if the messages are recent', () => {
     let sent = false;
-    const bot = new Bot(120);
-    bot.configure('test-channel', function () {
+    const bot = new Bot();
+    bot.configure('test-channel', 10, function () {
         sent = true;
     });
-    sent = false;
 
-    bot.notify('test-channel', new Date(10000000));
+    bot.notify('test-channel', new Date(0));
 
-    bot.reviveChannels(new Date(10000119));
+    bot.reviveChannels(new Date(5 * 1000));
 
     expect(sent).toBe(false);
 });
 
 test('not responding on irrelevant channels', () => {
     let sent = false;
-    const bot = new Bot(120);
-    bot.configure('test-channel', function () {
+    const bot = new Bot();
+    bot.configure('test-channel', 10, function () {
         sent = true;
     });
-    sent = false;
 
-    bot.notify('different-channel', new Date(10000000));
+    bot.notify('different-channel', new Date(0));
 
-    bot.reviveChannels(new Date(20000000));
+    bot.reviveChannels(new Date(15 * 1000));
 
     expect(sent).toBe(false);
 });
 
 test('not responding on removed channels', () => {
     let sent = false;
-    const bot = new Bot(120);
-    bot.configure('test-channel', function () {
+    const bot = new Bot();
+    bot.configure('test-channel', 10, function () {
         sent = true;
     });
     bot.remove('test-channel', function () {});
 
-    bot.notify('test-channel', new Date(10000000));
+    bot.notify('test-channel', new Date(0));
 
-    bot.reviveChannels(new Date(20000000));
+    bot.reviveChannels(new Date(15 * 1000));
 
     expect(sent).toBe(false);
 });
 
-test('overridding configuration when configuring an already configured channel', () => {
-    let message = '';
-    const bot = new Bot(120);
-    bot.configure('test-channel', function () {
-        message = 'should never happen';
-    });
-    bot.configure('test-channel', function () {
-        message = 'verified'
-    });
-
-    bot.notify('test-channel', new Date(10000000));
-
-    bot.reviveChannels(new Date(20000000));
-
-    expect(message).toBe('verified');
-});
-
 test('responding with refusal when removing an already removed channel', () => {
-    const bot = new Bot(120);
+    const bot = new Bot();
     const successfullyRemoved = bot.remove('test-channel');
 
     expect(successfullyRemoved).toBe(false);
