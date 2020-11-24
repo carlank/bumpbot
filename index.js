@@ -4,7 +4,7 @@ const {Client} = require('discord.js');
 const Bot = require('./src/Bot.js');
 
 const client = new Client();
-const bot = new Bot({}, 10);
+const bot = new Bot(10);
 
 client.on('ready', () => {
   console.log('READY');
