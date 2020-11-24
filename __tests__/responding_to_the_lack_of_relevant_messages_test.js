@@ -54,10 +54,3 @@ test('not responding on removed channels', () => {
 
     expect(sent).toBe(false);
 });
-
-test('responding with refusal when removing an already removed channel', () => {
-    const bot = new Bot();
-    const successfullyRemoved = bot.remove('test-channel');
-
-    expect(successfullyRemoved).toBe(false);
-});

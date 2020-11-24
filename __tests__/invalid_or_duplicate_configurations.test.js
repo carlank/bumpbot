@@ -18,6 +18,13 @@ test('overrides configuration when configuring an already configured channel', (
     expect(message).toBe('verified');
 });
 
+test('refuses to remove an already removed channel', () => {
+    const bot = new Bot();
+    const successfullyRemoved = bot.remove('test-channel');
+
+    expect(successfullyRemoved).toBe(false);
+});
+
 test('refuses timeouts below 10 seconds', () => {
     const bot = new Bot();
 
