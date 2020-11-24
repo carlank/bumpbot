@@ -1,11 +1,7 @@
 class Bot {
 
-    /**
-     * @param  {Number} waitingTime Time in seconds to wait before reviving
-     */
-    constructor(waitingTime) {
+    constructor() {
         this.channels = new Map();
-        this.waitingTime = waitingTime * 1000;
     }
 
     /**
@@ -21,10 +17,11 @@ class Bot {
     /**
      * Configure a new channel
      * @param  {String}   channel  Channel ID
+     * @param  {Number}   delay    Time between bumps in seconds
      * @param  {Function} callback Callback to execute upon revival
      */
-    configure(channel, callback) {
-        this.channels.set(channel, {callback, updated: new Date()});
+    configure(channel, delay, callback) {
+        this.channels.set(channel, {callback, delay, updated: new Date()});
     }
 
     /**
@@ -43,8 +40,8 @@ class Bot {
     reviveChannels(date) {
         // console.log('revive');
         this.channels.forEach(channel => {
-            // console.log(date.getTime(), channel.updated.getTime(), this.waitingTime)
-            if (date.getTime() - channel.updated.getTime() > this.waitingTime) {
+            console.log((date.getTime() - channel.updated.getTime())/ 1000, channel.delay)
+            if (date.getTime() - channel.updated.getTime() > channel.delay * 1000) {
                 channel.callback();
             }
         });
