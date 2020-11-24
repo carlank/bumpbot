@@ -30,7 +30,7 @@ class Bot {
         if(delay < 10){
             throw `That's too often! Choose a time over 10 seconds.`;
         }
-        this.channels.set(channel, {callback, delay, updated: new Date(), tags: tags});
+        this.channels.set(channel, {callback, delay, updated: new Date(), tags});
     }
 
     /**
@@ -57,8 +57,8 @@ class Bot {
     reviveChannels(date) {
         this.channels.forEach(channel => {
             if (date.getTime() - channel.updated.getTime() > channel.delay * 1000) {
-                let source = this.chooseSourceFor(channel);
-                channel.callback(source ? source.getMessage() : '');
+                const source = this.chooseSourceFor(channel);
+                channel.callback(source ? source.getMessage() : undefined);
             }
         });
     }
@@ -71,8 +71,7 @@ class Bot {
      * @todo add weighted random, where weight is # of tags in common
      */
     chooseSourceFor(channel) {
-        for (let i in this.sources) {
-            let source = this.sources[i];
+        for (const source of this.sources) {
             if (source.isRelevantToAnyOfThese(channel.tags)) {
                 return source;
             }
