@@ -18,7 +18,13 @@ client.on('message', message => {
   switch(message.content){
 
     case '!autobump':
+      channel.send('Autobumping');
       bot.configure(channel.id, () =>{
+          const {lastMessage} = channel;
+          // console.log('message', lastMessage.author, client.user);
+          if(lastMessage && lastMessage.author === client.user){
+            lastMessage.delete();
+          }
           channel.send('Autobumptastic');
       });
       break;

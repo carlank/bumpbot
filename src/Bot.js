@@ -5,7 +5,7 @@ class Bot {
      */
     constructor(waitingTime) {
         this.channels = new Map();
-        this.waitingTime = waitingTime;
+        this.waitingTime = waitingTime * 1000;
     }
 
     /**
@@ -41,7 +41,9 @@ class Bot {
      * @param  {Date}    date  Date of revival, normally now.
      */
     reviveChannels(date) {
+        // console.log('revive');
         this.channels.forEach(channel => {
+            // console.log(date.getTime(), channel.updated.getTime(), this.waitingTime)
             if (date.getTime() - channel.updated.getTime() > this.waitingTime) {
                 channel.callback();
             }
