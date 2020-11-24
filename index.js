@@ -35,15 +35,19 @@ client.on('message', message => {
         });
         channel.send(`Autobumping every ${delay} seconds!`);
       } catch (e) {
-        channel.send(`Not autobumping: ` + e);
+        channel.send(`Cannot autobump: ` + e);
       }
       break;
 
     case '!debump':
-      if(bot.remove(channel.id)){
-        channel.send('Stopping autobumping');
-      } else {
-        channel.send(`I wasn't doing anything?`);
+      try{
+        if(bot.remove(channel.id)){
+          channel.send('Stopping autobumping');
+        } else {
+          channel.send(`I wasn't doing anything?`);
+        }
+      } catch (e) {
+        channel.send(`Cannot debump: ` + e);
       }
       break;
 
@@ -54,7 +58,11 @@ client.on('message', message => {
 });
 
 const bumpLoop = () => {
-  bot.reviveChannels(new Date());
+  try{
+    bot.reviveChannels(new Date());
+  } catch (e) {
+    console.error(`Failed to revive: ` + e);
+  }
 };
 
 setInterval(bumpLoop, 1000); // Nasty nasty nasty

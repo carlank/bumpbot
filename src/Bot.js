@@ -43,6 +43,9 @@ class Bot {
      * @return {Boolean}           True if removed, false if not present
      */
     remove(channel) {
+        if(typeof channel !== 'string'){
+            throw new TypeError('ChannelID is not a string');
+        }
         return this.channels.delete(channel);
     }
 
@@ -51,6 +54,9 @@ class Bot {
      * @param  {Date}    date  Date of revival, normally now.
      */
     reviveChannels(date) {
+        if(typeof Date !== 'date'){
+            throw new TypeError('Date is not a Date');
+        }
         this.channels.forEach(channel => {
             if (date.getTime() - channel.updated.getTime() > channel.delay * 1000) {
                 channel.callback();
