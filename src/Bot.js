@@ -42,9 +42,7 @@ class Bot {
      * @param  {Date}    date  Date of revival, normally now.
      */
     reviveChannels(date) {
-        // console.log('revive');
         this.channels.forEach(channel => {
-            console.log((date.getTime() - channel.updated.getTime())/ 1000, channel.delay);
             if (date.getTime() - channel.updated.getTime() > channel.delay * 1000) {
                 channel.callback();
             }
