@@ -7,7 +7,7 @@ const client = new Client();
 const monitoredChannels = new Map();
 
 // in ms
-const bumpInterval = 10 * 1000;
+const bumpInterval = 2 * 1000;
 
 client.on('ready', () => {
   console.log('READY');
@@ -40,7 +40,7 @@ client.on('message', message => {
       break;
 
     case '!bump':
-      message.channel.send('TheCodersThrone');
+      message.channel.send('test');
       break;
   }
 });
