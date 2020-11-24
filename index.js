@@ -29,6 +29,7 @@ client.on('message', message => {
       const delay = args[0] || 10 * 60; // Ten minute default delay
       if(delay < 10){
         channel.send(`That's too often! Choose a time over 10 seconds.`)
+        break;
       }
       channel.send(`Autobumping every ${delay} seconds!`);
       bot.configure(channel.id, delay, () =>{
