@@ -22,6 +22,15 @@ class Bot {
      * @throws When refused
      */
     configure(channel, delay, callback) {
+        if(typeof channel !== 'string'){
+            throw new TypeError('ChannelID is not a string');
+        }
+        if(typeof delay !== 'number'){
+            throw new TypeError('Delay is not a number');
+        }
+        if(typeof callback !== 'function'){
+            throw new TypeError('Callback is not a function');
+        }
         if(delay < 10){
             throw `That's too often! Choose a time over 10 seconds.`;
         }
