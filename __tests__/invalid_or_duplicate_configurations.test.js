@@ -38,3 +38,24 @@ test('refuses timeouts below 10 seconds', () => {
         });
     }).toThrow('10 seconds');
 });
+
+test('throwing typerror on invalid channelID', () => {
+    const bot = new Bot();
+    expect(() => {
+        bot.configure(123, 10, () => {}); 
+    }).toThrow(TypeError);
+});
+
+test('throwing typerror on invalid delay', () => {
+    const bot = new Bot();
+    expect(() => {
+        bot.configure('test-channel', 'funkydelay', () => {}); 
+    }).toThrow(TypeError);
+});
+
+test('throwing typerror on invalid callback', () => {
+    const bot = new Bot();
+    expect(() => {
+        bot.configure('test-channel', 10, 'callback'); 
+    }).toThrow(TypeError);
+});

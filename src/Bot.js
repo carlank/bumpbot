@@ -27,6 +27,15 @@ class Bot {
      * @throws When refused
      */
     configureChannel(channel, {delay = 10 * 60, callback = () => {}, tags = []} = {}) {
+        if(typeof channel !== 'string'){
+            throw new TypeError('ChannelID is not a string');
+        }
+        if(typeof delay !== 'number'){
+            throw new TypeError('Delay is not a number');
+        }
+        if(typeof callback !== 'function'){
+            throw new TypeError('Callback is not a function');
+        }
         if(delay < 10){
             throw `That's too often! Choose a time over 10 seconds.`;
         }
@@ -40,6 +49,9 @@ class Bot {
      * @return {Boolean}           True if removed, false if not present
      */
     removeChannel(channel) {
+        if(typeof channel !== 'string'){
+            throw new TypeError('ChannelID is not a string');
+        }
         return this.channels.delete(channel);
     }
 
@@ -48,6 +60,9 @@ class Bot {
      * @param  {Date}    date  Date of revival, normally now.
      */
     reviveChannels(date) {
+        if(! date instanceof Date){
+            throw new TypeError('Date is not a Date');
+        }
         this.channels.forEach(channel => {
             if (date.getTime() - channel.updated.getTime() > channel.delay * 1000) {
                 const source = this.chooseSourceFor(channel);
