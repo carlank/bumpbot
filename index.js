@@ -34,6 +34,7 @@ client.on('message', message => {
               lastMessage.delete();
             }
             channel.send('Autobumptastic');
+          }
         };
         bot.configureChannel(channel.id, config);
         channel.send(`Autobumping every ${delay} seconds!`);
