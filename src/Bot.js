@@ -1,7 +1,10 @@
+/**
+ * @property {StaticSource[]} sources
+ */
 class Bot {
-
     constructor() {
         this.channels = new Map();
+        this.sources = [];
     }
 
     /**
@@ -14,26 +17,41 @@ class Bot {
             this.channels.get(channel).updated = date;
         }
     }
+
     /**
      * Configure a new channel
      * @param  {String}   channel  Channel ID
      * @param  {Number}   delay    Time between bumps in seconds
      * @param  {Function} callback Callback to execute upon revival
+     * @param  {Array}    tags     Tags to considered relevant
      * @throws When refused
      */
-    configure(channel, delay, callback) {
+    configureChannel(channel, {delay = 10 * 60, callback = () => {}, tags = []} = {}) {
+        if(typeof channel !== 'string'){
+            throw new TypeError('ChannelID is not a string');
+        }
+        if(typeof delay !== 'number'){
+            throw new TypeError('Delay is not a number');
+        }
+        if(typeof callback !== 'function'){
+            throw new TypeError('Callback is not a function');
+        }
         if(delay < 10){
             throw `That's too often! Choose a time over 10 seconds.`;
         }
-        this.channels.set(channel, {callback, delay, updated: new Date()});
+        this.channels.set(channel, {callback, delay, updated: new Date(), tags});
     }
+
 
     /**
      * Remove a channel from the watchlist
      * @param  {String}   channel  Channel ID
      * @return {Boolean}           True if removed, false if not present
      */
-    remove(channel) {
+    removeChannel(channel) {
+        if(typeof channel !== 'string'){
+            throw new TypeError('ChannelID is not a string');
+        }
         return this.channels.delete(channel);
     }
 
@@ -42,11 +60,38 @@ class Bot {
      * @param  {Date}    date  Date of revival, normally now.
      */
     reviveChannels(date) {
+        if(! date instanceof Date){
+            throw new TypeError('Date is not a Date');
+        }
         this.channels.forEach(channel => {
             if (date.getTime() - channel.updated.getTime() > channel.delay * 1000) {
-                channel.callback();
+                const source = this.chooseSourceFor(channel);
+                channel.callback(source ? source.getMessage() : undefined);
             }
         });
+    }
+
+    /**
+     * Configure a new source
+     * @param {StaticSource} source
+     */
+    addSource(source) {
+        this.sources.push(source);
+    }
+
+    /**
+     * Chooses a relevant source for the channel
+     * @param {Object} channel
+     * @return {StaticSource}
+     * @todo pick one at random
+     * @todo add weighted random, where weight is # of tags in common
+     */
+    chooseSourceFor(channel) {
+        for (const source of this.sources) {
+            if (source.isRelevantToAnyOfThese(channel.tags)) {
+                return source;
+            }
+        }
     }
 }
 
