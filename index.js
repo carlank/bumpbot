@@ -25,6 +25,7 @@ client.on('message', message => {
 
     case '!autobump':
       const delay = args[0]; // Ten minute default delay
+      console.log(delay)
       try {
         const config = {
           callback: () => {
@@ -36,10 +37,11 @@ client.on('message', message => {
           }
         };
         if(delay){
-          config.delay = delay;
+          config.delay = Number(delay);
         }
+        console.log(config)
         bot.configureChannel(channel.id, config);
-        channel.send(`Autobumping every ${delay} seconds!`);
+        channel.send(`Autobumping every ${config.delay || bot.defaultDelay} seconds!`);
       } catch (e) {
         channel.send(`Not autobumping: ` + e);
       }

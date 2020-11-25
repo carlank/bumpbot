@@ -5,6 +5,7 @@ class Bot {
     constructor() {
         this.channels = new Map();
         this.sources = [];
+        this.defaultDelay = 10 * 60;
     }
 
     /**
@@ -26,7 +27,8 @@ class Bot {
      * @param  {Array}    tags     Tags to considered relevant
      * @throws When refused
      */
-    configureChannel(channel, {delay = 10 * 60, callback = () => {}, tags = []} = {}) {
+    configureChannel(channel, {delay = this.defaultDelay, callback = () => {}, tags = []} = {}) {
+        console.log(delay, callback, tags)
         if(typeof channel !== 'string'){
             throw new TypeError('ChannelID is not a string');
         }
@@ -40,6 +42,7 @@ class Bot {
             throw `That's too often! Choose a time over 10 seconds.`;
         }
         this.channels.set(channel, {callback, delay, updated: new Date(), tags});
+        console.log(this.channels)
     }
 
 
