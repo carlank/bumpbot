@@ -26,11 +26,34 @@ class Bot {
      * @param  {Array}    tags     Tags to considered relevant
      * @throws When refused
      */
-    configure(channel, delay, callback, tags = []) {
+    configureChannel(channel, {delay = 10 * 60, callback = () => {}, tags = []} = {}) {
         if(delay < 10){
             throw `That's too often! Choose a time over 10 seconds.`;
         }
-        this.channels.set(channel, {callback, delay, updated: new Date(), tags: tags});
+        this.channels.set(channel, {callback, delay, updated: new Date(), tags});
+    }
+
+
+    /**
+     * Remove a channel from the watchlist
+     * @param  {String}   channel  Channel ID
+     * @return {Boolean}           True if removed, false if not present
+     */
+    removeChannel(channel) {
+        return this.channels.delete(channel);
+    }
+
+    /**
+     * Revive all watched channels
+     * @param  {Date}    date  Date of revival, normally now.
+     */
+    reviveChannels(date) {
+        this.channels.forEach(channel => {
+            if (date.getTime() - channel.updated.getTime() > channel.delay * 1000) {
+                const source = this.chooseSourceFor(channel);
+                channel.callback(source ? source.getMessage() : undefined);
+            }
+        });
     }
 
     /**
@@ -42,28 +65,6 @@ class Bot {
     }
 
     /**
-     * Remove a channel from the watchlist
-     * @param  {String}   channel  Channel ID
-     * @return {Boolean}           True if removed, false if not present
-     */
-    remove(channel) {
-        return this.channels.delete(channel);
-    }
-
-    /**
-     * Revive all watched channels
-     * @param  {Date}    date  Date of revival, normally now.
-     */
-    reviveChannels(date) {
-        this.channels.forEach(channel => {
-            if (date.getTime() - channel.updated.getTime() > channel.delay * 1000) {
-                let source = this.chooseSourceFor(channel);
-                channel.callback(source ? source.getMessage() : '');
-            }
-        });
-    }
-
-    /**
      * Chooses a relevant source for the channel
      * @param {Object} channel
      * @return {StaticSource}
@@ -71,8 +72,7 @@ class Bot {
      * @todo add weighted random, where weight is # of tags in common
      */
     chooseSourceFor(channel) {
-        for (let i in this.sources) {
-            let source = this.sources[i];
+        for (const source of this.sources) {
             if (source.isRelevantToAnyOfThese(channel.tags)) {
                 return source;
             }
