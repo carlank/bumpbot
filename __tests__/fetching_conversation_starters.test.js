@@ -5,9 +5,7 @@ test('fetches the source with the matching tag', done => {
     let message = '';
     const bot = new Bot();
 
-    const correctSource = new StaticSource('expected', ['tag']);
-
-    bot.addSource(correctSource);
+    bot.addSource(new StaticSource('expected', ['tag']));
     bot.addSource(new StaticSource('unexpected', ['no']));
 
     bot.configureChannel('test-channel', {
