@@ -3,7 +3,7 @@ const Bot = require('../src/Bot.js');
 test('responding if the messages are old', () => {
     let sent = false;
     const bot = new Bot();
-    bot.configure('test-channel', 10, function () {
+    bot.configureChannel('test-channel', 10, function () {
         sent = true;
     });
 
@@ -15,7 +15,7 @@ test('responding if the messages are old', () => {
 test('not responding if the messages are recent', () => {
     let sent = false;
     const bot = new Bot();
-    bot.configure('test-channel', 10, function () {
+    bot.configureChannel('test-channel', 10, function () {
         sent = true;
     });
 
@@ -29,7 +29,7 @@ test('not responding if the messages are recent', () => {
 test('not responding on irrelevant channels', () => {
     let sent = false;
     const bot = new Bot();
-    bot.configure('test-channel', 10, function () {
+    bot.configureChannel('test-channel', 10, function () {
         sent = true;
     });
 
@@ -43,10 +43,10 @@ test('not responding on irrelevant channels', () => {
 test('not responding on removed channels', () => {
     let sent = false;
     const bot = new Bot();
-    bot.configure('test-channel', 10, function () {
+    bot.configureChannel('test-channel', 10, function () {
         sent = true;
     });
-    bot.remove('test-channel');
+    bot.removeChannel('test-channel');
 
     bot.notify('test-channel', new Date(0));
 

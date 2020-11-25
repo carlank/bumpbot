@@ -8,7 +8,7 @@ test('fetches the source with the matching tag', () => {
     bot.addSource(new StaticSource('expected', ['tag']));
     bot.addSource(new StaticSource('unexpected', ['no']));
 
-    bot.configure('test-channel', 10, function (msg) {
+    bot.configureChannel('test-channel', 10, function (msg) {
         message = msg;
     }, ['tag']);
 

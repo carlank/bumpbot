@@ -4,11 +4,11 @@ test('overrides configuration when configuring an already configured channel', (
     let message = '';
     const bot = new Bot();
 
-    bot.configure('test-channel', 10, function () {
+    bot.configureChannel('test-channel', 10, function () {
         message = 'should never happen';
     });
 
-    bot.configure('test-channel', 10, function () {
+    bot.configureChannel('test-channel', 10, function () {
         message = 'verified'
     });
 
@@ -20,7 +20,7 @@ test('overrides configuration when configuring an already configured channel', (
 
 test('refuses to remove an already removed channel', () => {
     const bot = new Bot();
-    const successfullyRemoved = bot.remove('test-channel');
+    const successfullyRemoved = bot.removeChannel('test-channel');
 
     expect(successfullyRemoved).toBe(false);
 });
@@ -29,6 +29,6 @@ test('refuses timeouts below 10 seconds', () => {
     const bot = new Bot();
 
     expect(() => {
-        bot.configure('test-channel', 5, function () {})
+        bot.configureChannel('test-channel', 5, function () {})
     }).toThrow('10 seconds');
 });

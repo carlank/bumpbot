@@ -26,27 +26,20 @@ class Bot {
      * @param  {Array}    tags     Tags to considered relevant
      * @throws When refused
      */
-    configure(channel, delay, callback, tags = []) {
+    configureChannel(channel, delay, callback, tags = []) {
         if(delay < 10){
             throw `That's too often! Choose a time over 10 seconds.`;
         }
         this.channels.set(channel, {callback, delay, updated: new Date(), tags});
     }
 
-    /**
-     * Configure a new source
-     * @param {StaticSource} source
-     */
-    addSource(source) {
-        this.sources.push(source);
-    }
 
     /**
      * Remove a channel from the watchlist
      * @param  {String}   channel  Channel ID
      * @return {Boolean}           True if removed, false if not present
      */
-    remove(channel) {
+    removeChannel(channel) {
         return this.channels.delete(channel);
     }
 
@@ -61,6 +54,14 @@ class Bot {
                 channel.callback(source ? source.getMessage() : undefined);
             }
         });
+    }
+
+    /**
+     * Configure a new source
+     * @param {StaticSource} source
+     */
+    addSource(source) {
+        this.sources.push(source);
     }
 
     /**

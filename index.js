@@ -26,7 +26,7 @@ client.on('message', message => {
     case '!autobump':
       const delay = args[0] || 10 * 60; // Ten minute default delay
       try {
-        bot.configure(channel.id, delay, () => {
+        bot.configureChannel(channel.id, delay, () => {
           const {lastMessage} = channel;
           if (lastMessage && lastMessage.author === client.user) {
             lastMessage.delete();
