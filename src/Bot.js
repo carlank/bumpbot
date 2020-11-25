@@ -1,5 +1,5 @@
 /**
- * @property {StaticSource[]} sources
+ * @property {Source[]} sources
  */
 class Bot {
     constructor() {
@@ -28,7 +28,6 @@ class Bot {
      * @throws When refused
      */
     configureChannel(channel, {delay = this.defaultDelay, callback = () => {}, tags = []} = {}) {
-        console.log(delay, callback, tags)
         if(typeof channel !== 'string'){
             throw new TypeError('ChannelID is not a string');
         }
@@ -42,7 +41,6 @@ class Bot {
             throw `That's too often! Choose a time over 10 seconds.`;
         }
         this.channels.set(channel, {callback, delay, updated: new Date(), tags});
-        console.log(this.channels)
     }
 
 
@@ -66,10 +64,10 @@ class Bot {
         if(! date instanceof Date){
             throw new TypeError('Date is not a Date');
         }
-        this.channels.forEach(channel => {
+        this.channels.forEach(async channel => {
             if (date.getTime() - channel.updated.getTime() > channel.delay * 1000) {
                 const source = this.chooseSourceFor(channel);
-                channel.callback(source ? source.getMessage() : undefined);
+                channel.callback(source ? await source.getMessage() : undefined);
             }
         });
     }
@@ -85,7 +83,7 @@ class Bot {
     /**
      * Chooses a relevant source for the channel
      * @param {Object} channel
-     * @return {StaticSource}
+     * @return {Source}
      * @todo pick one at random
      * @todo add weighted random, where weight is # of tags in common
      */

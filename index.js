@@ -2,9 +2,12 @@ require('dotenv').config();
 
 const {Client} = require('discord.js');
 const Bot = require('./src/Bot.js');
+const XkcdSource = require('./src/Source/XkcdSource.js');
 
 const client = new Client();
 const bot = new Bot();
+console.log('bot made, about to add')
+bot.addSource(new XkcdSource());
 
 client.on('ready', () => {
   console.log('READY');
@@ -24,31 +27,39 @@ client.on('message', message => {
   switch(command){
 
     case '!autobump':
-      const delay = args[0]; // Ten minute default delay
-      console.log(delay)
+      const firstArgIsNumber = /^\d*$/.test(args[0]);
+      let delay, tags;
+      if(firstArgIsNumber){
+        delay = args[0];
+        tags = args.slice(1);
+      } else {
+        tags = args;
+      }
       try {
         const config = {
-          callback: () => {
+          callback: (sourceMsg) => {
             const {lastMessage} = channel;
             if (lastMessage && lastMessage.author === client.user) {
               lastMessage.delete();
             }
-            channel.send('Autobumptastic');
+            channel.send(sourceMsg || 'Autobumptastic');
           }
         };
         if(delay){
           config.delay = Number(delay);
         }
-        console.log(config)
+        if(tags){
+          config.tags = tags;
+        }
         bot.configureChannel(channel.id, config);
-        channel.send(`Autobumping every ${config.delay || bot.defaultDelay} seconds!`);
+        channel.send(`Autobumping ${tags ? tags.join(', ') + ' ' : ''}every ${config.delay || bot.defaultDelay} seconds!`);
       } catch (e) {
         channel.send(`Not autobumping: ` + e);
       }
       break;
 
     case '!debump':
-      if(bot.remove(channel.id)){
+      if(bot.removeChannel(channel.id)){
         channel.send('Stopping autobumping');
       } else {
         channel.send(`I wasn't doing anything?`);

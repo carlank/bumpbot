@@ -1,7 +1,7 @@
 const Bot = require('../src/Bot.js');
 const StaticSource = require('../src/Source/StaticSource.js');
 
-test('fetches the source with the matching tag', () => {
+test('fetches the source with the matching tag', done => {
     let message = '';
     const bot = new Bot();
 
@@ -11,7 +11,12 @@ test('fetches the source with the matching tag', () => {
     bot.configureChannel('test-channel', {
         delay: 10,
         callback: msg => {
-            message = msg;
+            try{
+                expect(msg).toBe('expected')
+                done();
+            } catch (e){
+                done(e)
+            }
         },
         tags: ['tag']
     });
@@ -19,5 +24,4 @@ test('fetches the source with the matching tag', () => {
     bot.notify('test-channel', new Date(0));
     bot.reviveChannels(new Date(15 * 1000));
 
-    expect(message).toBe('expected');
 });

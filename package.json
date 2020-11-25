@@ -4,6 +4,7 @@
   "description": "A basic Discord bot, by the community at The Coding boi",
   "main": "index.js",
   "dependencies": {
+    "axios": "^0.21.0",
     "discord.js": "^12.5.0",
     "dotenv": "^8.2.0"
   },
@@ -29,4 +30,4 @@
     "url": "https://github.com/carlank/bumpbot/issues"
   },
   "homepage": "https://github.com/carlank/bumpbot#readme"
-}   
+}
