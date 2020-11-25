@@ -24,7 +24,7 @@ class XkcdSource extends Source {
         embed = new MessageEmbed()
             .setImage(img)
             .setTitle(title)
-            .setDescription(alt);
+            .setFooter(alt);
         return embed;
     }
 }
