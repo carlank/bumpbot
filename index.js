@@ -59,7 +59,7 @@ client.on('message', message => {
       break;
 
     case '!debump':
-      if(bot.remove(channel.id)){
+      if(bot.removeChannel(channel.id)){
         channel.send('Stopping autobumping');
       } else {
         channel.send(`I wasn't doing anything?`);
