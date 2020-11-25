@@ -13,7 +13,7 @@ class StaticSource extends Source {
     /**
      * @return {string}
      */
-    getMessage() {
+    async getMessage() {
         return this.message;
     }
 }

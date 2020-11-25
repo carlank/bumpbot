@@ -23,7 +23,7 @@ class Source {
     /**
      * @return {string}
      */
-    getMessage() {
+    async getMessage() {
         return 'NO MESSAGE DEFINED';
     }
 }

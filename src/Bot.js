@@ -1,5 +1,5 @@
 /**
- * @property {StaticSource[]} sources
+ * @property {Source[]} sources
  */
 class Bot {
     constructor() {
@@ -66,10 +66,10 @@ class Bot {
         if(! date instanceof Date){
             throw new TypeError('Date is not a Date');
         }
-        this.channels.forEach(channel => {
+        this.channels.forEach(async channel => {
             if (date.getTime() - channel.updated.getTime() > channel.delay * 1000) {
                 const source = this.chooseSourceFor(channel);
-                channel.callback(source ? source.getMessage() : undefined);
+                channel.callback(source ? await source.getMessage() : undefined);
             }
         });
     }
@@ -79,6 +79,7 @@ class Bot {
      * @param {StaticSource} source
      */
     addSource(source) {
+        console.log('adding source', source)
         this.sources.push(source);
     }
 
@@ -90,7 +91,9 @@ class Bot {
      * @todo add weighted random, where weight is # of tags in common
      */
     chooseSourceFor(channel) {
+        console.log('Choosing source')
         for (const source of this.sources) {
+            console.log(source)
             if (source.isRelevantToAnyOfThese(channel.tags)) {
                 return source;
             }
