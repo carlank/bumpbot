@@ -83,13 +83,12 @@ class Bot {
     /**
      * Chooses a relevant source for the channel
      * @param {Object} channel
-     * @return {StaticSource}
+     * @return {Source}
      * @todo pick one at random
      * @todo add weighted random, where weight is # of tags in common
      */
     chooseSourceFor(channel) {
         for (const source of this.sources) {
-            console.log(source)
             if (source.isRelevantToAnyOfThese(channel.tags)) {
                 return source;
             }

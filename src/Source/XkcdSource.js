@@ -5,16 +5,13 @@ const Source = require('./Source.js');
 
 class XkcdSource extends Source {
     constructor() {
-        console.log('building xkcdsource')
         super(['xkcd']);
-        console.log(this)
     }
 
     /**
      * @return {string}
      */
     async getMessage() {
-        console.log('fetching xkcd')
         let embed = 'Failed to create new embed';
         const response = await axios.get('http://xkcd.com/info.0.json')
         const latestComic = response.data['num'];
