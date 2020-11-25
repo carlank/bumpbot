@@ -28,7 +28,6 @@ class Bot {
      * @throws When refused
      */
     configureChannel(channel, {delay = this.defaultDelay, callback = () => {}, tags = []} = {}) {
-        console.log(delay, callback, tags)
         if(typeof channel !== 'string'){
             throw new TypeError('ChannelID is not a string');
         }
@@ -42,7 +41,6 @@ class Bot {
             throw `That's too often! Choose a time over 10 seconds.`;
         }
         this.channels.set(channel, {callback, delay, updated: new Date(), tags});
-        console.log(this.channels)
     }
 
 
@@ -79,7 +77,6 @@ class Bot {
      * @param {StaticSource} source
      */
     addSource(source) {
-        console.log('adding source', source)
         this.sources.push(source);
     }
 
@@ -91,7 +88,6 @@ class Bot {
      * @todo add weighted random, where weight is # of tags in common
      */
     chooseSourceFor(channel) {
-        console.log('Choosing source')
         for (const source of this.sources) {
             console.log(source)
             if (source.isRelevantToAnyOfThese(channel.tags)) {

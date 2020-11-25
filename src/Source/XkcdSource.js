@@ -24,7 +24,6 @@ class XkcdSource extends Source {
 
         const comicResponse = await axios.get(url);
         const {title, img, alt} = comicResponse.data;
-        console.log(title, img, alt)
         embed = new MessageEmbed()
             .setImage(img)
             .setTitle(title)

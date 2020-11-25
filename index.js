@@ -35,7 +35,6 @@ client.on('message', message => {
       } else {
         tags = args;
       }
-      console.log(delay, tags)
       try {
         const config = {
           callback: (sourceMsg) => {
