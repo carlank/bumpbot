@@ -26,7 +26,7 @@ class Bot {
      * @param  {Array}    tags     Tags to considered relevant
      * @throws When refused
      */
-    configureChannel(channel, delay, callback, tags = []) {
+    configureChannel(channel, {delay = 10 * 60, callback, tags = []} = {}) {
         if(delay < 10){
             throw `That's too often! Choose a time over 10 seconds.`;
         }

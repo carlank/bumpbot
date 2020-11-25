@@ -24,15 +24,18 @@ client.on('message', message => {
   switch(command){
 
     case '!autobump':
-      const delay = args[0] || 10 * 60; // Ten minute default delay
+      const delay = args[0]; // Ten minute default delay
       try {
-        bot.configureChannel(channel.id, delay, () => {
-          const {lastMessage} = channel;
-          if (lastMessage && lastMessage.author === client.user) {
-            lastMessage.delete();
-          }
-          channel.send('Autobumptastic');
-        });
+        const config = {
+          delay,
+          callback: () => {
+            const {lastMessage} = channel;
+            if (lastMessage && lastMessage.author === client.user) {
+              lastMessage.delete();
+            }
+            channel.send('Autobumptastic');
+        };
+        bot.configureChannel(channel.id, config);
         channel.send(`Autobumping every ${delay} seconds!`);
       } catch (e) {
         channel.send(`Not autobumping: ` + e);
