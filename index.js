@@ -1,11 +1,22 @@
 require('dotenv').config();
-
-const {Client} = require('discord.js');
+const fs = require("fs");
+const {Client, Collection} = require('discord.js');
 const Bot = require('./src/Bot.js');
 const XkcdSource = require('./src/Source/XkcdSource.js');
 
 const client = new Client();
+client.commands = new Collection();
+
+const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+  const command = require(`./src/commands/${file}`)
+
+  client.commands.set(command.name, command)
+}
+
 const bot = new Bot();
+module.exports = bot;
 console.log('bot made, about to add')
 bot.addSource(new XkcdSource());
 
@@ -14,61 +25,16 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
-  const {channel, content, author} = message;
-  bot.notify(channel.id, new Date());
+  const prefix = "!";
+  if(!message.content.startsWith(prefix) || message.author.bot) return;
+  const args = message.content.slice(prefix.length).split(/ +/)
+  const command = args.shift().toLowerCase()
+  if (!client.commands.has(command)) return;
 
-  if(author.bot || !content.startsWith('!')){
-    return;
-  }
+  try {
+    client.commands.get(command).execute(client, message, args)
+  } catch (e) {
 
-  const args = content.trim().split(' ');
-  const command = args.shift().toLowerCase();
-
-  switch(command){
-
-    case '!autobump':
-      const firstArgIsNumber = /^\d*$/.test(args[0]);
-      let delay, tags;
-      if(firstArgIsNumber){
-        delay = args[0];
-        tags = args.slice(1);
-      } else {
-        tags = args;
-      }
-      try {
-        const config = {
-          callback: (sourceMsg) => {
-            const {lastMessage} = channel;
-            if (lastMessage && lastMessage.author === client.user) {
-              lastMessage.delete();
-            }
-            channel.send(sourceMsg || 'Autobumptastic');
-          }
-        };
-        if(delay){
-          config.delay = Number(delay);
-        }
-        if(tags){
-          config.tags = tags;
-        }
-        bot.configureChannel(channel.id, config);
-        channel.send(`Autobumping ${tags ? tags.join(', ') + ' ' : ''}every ${config.delay || bot.defaultDelay} seconds!`);
-      } catch (e) {
-        channel.send(`Not autobumping: ` + e);
-      }
-      break;
-
-    case '!debump':
-      if(bot.removeChannel(channel.id)){
-        channel.send('Stopping autobumping');
-      } else {
-        channel.send(`I wasn't doing anything?`);
-      }
-      break;
-
-    case '!bump':
-      channel.send('TheCodersThrone');
-      break;
   }
 });
 
