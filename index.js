@@ -38,7 +38,7 @@ client.on('message', message => {
   try {
     client.commands.get(command).execute(client, message, args)
   } catch (e) {
-
+    console.error('Command execution error: ', e);
   }
 });
 
