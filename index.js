@@ -26,10 +26,14 @@ client.on('ready', () => {
 
 client.on('message', message => {
   const prefix = "!";
-  if(!message.content.startsWith(prefix) || message.author.bot) return;
+  if(!message.content.startsWith(prefix) || message.author.bot) {
+    return;
+  }
   const args = message.content.slice(prefix.length).split(/ +/)
   const command = args.shift().toLowerCase()
-  if (!client.commands.has(command)) return;
+  if (!client.commands.has(command)){
+    return;
+  }
 
   try {
     client.commands.get(command).execute(client, message, args)
