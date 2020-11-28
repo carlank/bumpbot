@@ -16,7 +16,9 @@ client.on('message', message => {
     return;
   }
 
+  /* Strip prefix and separate by whitespace */
   const args = message.content.slice(client.prefix.length).split(/ +/);
+  /* then pull the first substring as the command */
   const command = args.shift().toLowerCase();
   if (!commands.has(command)){
     return;
