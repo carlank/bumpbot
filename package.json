@@ -9,12 +9,23 @@
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
-    "jest": "^26.6.3",
-    "@jest/globals": "latest"
+    "@jest/globals": "latest",
+    "eslint": "^7.14.0",
+    "husky": "^4.3.0",
+    "jest": "^26.6.3"
   },
   "scripts": {
     "test": "jest",
+    "lint": "eslint .",
+    "lintfix": "eslint . --fix",
+    "verify": "npm run test && npm run lintfix",
     "start": "node index.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lintfix",
+      "pre-push": "npm run verify"
+    }
   },
   "engines": {
     "node": "12.x",

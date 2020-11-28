@@ -1,85 +1,42 @@
 require('dotenv').config();
+const commands = require('./src/commands');
+const BotClient = require('./src/BotClient.js');
 
-const {Client} = require('discord.js');
-const Bot = require('./src/Bot.js');
-const XkcdSource = require('./src/Source/XkcdSource.js');
+const client = new BotClient();
 
-const client = new Client();
-const bot = new Bot();
-console.log('bot made, about to add')
-bot.addSource(new XkcdSource());
-
-client.on('ready', () => {
-  console.log('READY');
-});
-
+/* Client event handling for new discord messages */
 client.on('message', message => {
-  const {channel, content, author} = message;
-  bot.notify(channel.id, new Date());
+    const {channel, content, author} = message;
 
-  if(author.bot || !content.startsWith('!')){
-    return;
-  }
+    /* Always notify the bot that a message was posted to the channel. */
+    client.bot.notify(channel.id, new Date());
 
-  const args = content.trim().split(' ');
-  const command = args.shift().toLowerCase();
+    /* Otherwise ignore messages that do not begin with the client's prefix or which are from a bot */
+    if(!content.startsWith(client.prefix) || author.bot) {
+        return;
+    }
 
-  switch(command){
+    /* Strip prefix and separate by whitespace */
+    const args = message.content.slice(client.prefix.length).split(/ +/);
+    /* then pull the first substring as the command */
+    const command = args.shift().toLowerCase();
+    if (!commands.has(command)){
+        return;
+    }
 
-    case '!autobump':
-      const firstArgIsNumber = /^\d*$/.test(args[0]);
-      let delay, tags;
-      if(firstArgIsNumber){
-        delay = args[0];
-        tags = args.slice(1);
-      } else {
-        tags = args;
-      }
-      try {
-        const config = {
-          callback: (sourceMsg) => {
-            const {lastMessage} = channel;
-            if (lastMessage && lastMessage.author === client.user) {
-              lastMessage.delete();
-            }
-            channel.send(sourceMsg || 'Autobumptastic');
-          }
-        };
-        if(delay){
-          config.delay = Number(delay);
-        }
-        if(tags){
-          config.tags = tags;
-        }
-        bot.configureChannel(channel.id, config);
-        channel.send(`Autobumping ${tags ? tags.join(', ') + ' ' : ''}every ${config.delay || bot.defaultDelay} seconds!`);
-      } catch (e) {
-        channel.send(`Not autobumping: ` + e);
-      }
-      break;
-
-    case '!debump':
-      if(bot.removeChannel(channel.id)){
-        channel.send('Stopping autobumping');
-      } else {
-        channel.send(`I wasn't doing anything?`);
-      }
-      break;
-
-    case '!bump':
-      channel.send('TheCodersThrone');
-      break;
-  }
+    try {
+        commands.get(command).execute(client, message, args);
+    } catch (e) {
+        console.error('Command execution error: ', e);
+    }
 });
 
 const bumpLoop = () => {
-  bot.reviveChannels(new Date());
+    client.bot.reviveChannels(new Date());
 };
 
 setInterval(bumpLoop, 1000); // Nasty nasty nasty
 
-client.login();
-
 process.on('unhandledRejection', error => {
-  console.error('Unhandled promise rejection:', error);
+    console.error('Unhandled promise rejection:', error);
 });

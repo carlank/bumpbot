@@ -1,5 +1,9 @@
 /**
+ * A Bot class to wrap the various channel and source properties for a bumpbot instance (usually only one).
+ * @class
+ * @property {Map} channels
  * @property {Source[]} sources
+ * @property {number} defaultDelay
  */
 class Bot {
     constructor() {
@@ -38,7 +42,7 @@ class Bot {
             throw new TypeError('Callback is not a function');
         }
         if(delay < 10){
-            throw `That's too often! Choose a time over 10 seconds.`;
+            throw 'That\'s too often! Choose a time over 10 seconds.';
         }
         this.channels.set(channel, {callback, delay, updated: new Date(), tags});
     }
@@ -61,11 +65,11 @@ class Bot {
      * @param  {Date}    date  Date of revival, normally now.
      */
     reviveChannels(date) {
-        if(! date instanceof Date){
+        if(! (date instanceof Date)){
             throw new TypeError('Date is not a Date');
         }
         this.channels.forEach(async channel => {
-            if (date.getTime() - channel.updated.getTime() > channel.delay * 1000) {
+            if (date - channel.updated > channel.delay * 1000) {
                 const source = this.chooseSourceFor(channel);
                 channel.callback(source ? await source.getMessage() : undefined);
             }
