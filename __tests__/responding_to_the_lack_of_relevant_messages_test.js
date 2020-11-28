@@ -1,4 +1,4 @@
-const Bot = require('../src/Bot.js');
+import Bot from '../src/Bot.js';
 
 test('responding if the messages are old', () => {
     let sent = false;

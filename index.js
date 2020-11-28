@@ -9,7 +9,7 @@ const client = new BotClient();
 
 /* Client event handling for new discord messages */
 client.on('message', message => {
-    console.log(message)
+    console.log(message);
     const {channel, content, author} = message;
 
     /* Always notify the bot that a message was posted to the channel. */
