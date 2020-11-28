@@ -16,7 +16,7 @@ export default class XkcdSource extends Source {
         const response = await axios.get('http://xkcd.com/info.0.json');
         const latestComic = response.data['num'];
         let randomComicID = Math.floor((Math.random() * latestComic) + 1);
-        if (randomComicID == 404) { randomComicID = 0; } // Avoid 404 page
+        if (randomComicID === 404.0) { randomComicID = 0; } // Avoid 404 page
         const url = 'http://xkcd.com/' + randomComicID + '/info.0.json';
 
         const comicResponse = await axios.get(url);

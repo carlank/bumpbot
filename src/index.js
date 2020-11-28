@@ -4,7 +4,6 @@ import BotClient from './BotClient';
 
 dotenv.config();
 
-
 const client = new BotClient();
 
 /* Client event handling for new discord messages */
@@ -20,7 +19,7 @@ client.on('message', message => {
     }
 
     /* Strip prefix and separate by whitespace */
-    const args = message.content.slice(client.prefix.length).split(/ +/);
+    const args = content.slice(client.prefix.length).split(/ +/);
     /* then pull the first substring as the command */
     const command = args.shift().toLowerCase();
     if (!commands.has(command)){
