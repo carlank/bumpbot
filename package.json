@@ -23,8 +23,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm verify",
-      "pre-push": "npm verify"
+      "pre-commit": "npm run verify",
+      "pre-push": "npm run verify"
     }
   },
   "engines": {
