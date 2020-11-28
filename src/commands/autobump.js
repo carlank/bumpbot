@@ -2,7 +2,7 @@ module.exports = {
     name: 'autobump',
     description: 'Starts autobumping',
     execute(client, message, args) {
-        const {channel, content, author} = message;
+        const {channel} = message;
 
         const firstArgIsNumber = /^\d*$/.test(args[0]);
         let delay, tags;

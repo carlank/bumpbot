@@ -65,7 +65,7 @@ class Bot {
      * @param  {Date}    date  Date of revival, normally now.
      */
     reviveChannels(date) {
-        if(! date instanceof Date){
+        if(! (date instanceof Date)){
             throw new TypeError('Date is not a Date');
         }
         this.channels.forEach(async channel => {

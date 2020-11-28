@@ -2,7 +2,6 @@ const Bot = require('../src/Bot.js');
 const StaticSource = require('../src/Source/StaticSource.js');
 
 test('fetches the source with the matching tag', done => {
-    let message = '';
     const bot = new Bot();
 
     bot.addSource(new StaticSource('expected', ['tag']));
