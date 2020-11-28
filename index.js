@@ -9,7 +9,7 @@ client.on('message', message => {
     const {channel, content, author} = message;
 
     /* Always notify the bot that a message was posted to the channel. */
-    client.bot.notify(channel.id, Date.now());
+    client.bot.notify(channel.id, new Date());
 
     /* Otherwise ignore messages that do not begin with the client's prefix or which are from a bot */
     if(!content.startsWith(client.prefix) || author.bot) {
@@ -32,7 +32,7 @@ client.on('message', message => {
 });
 
 const bumpLoop = () => {
-    client.bot.reviveChannels(Date.now());
+    client.bot.reviveChannels(new Date());
 };
 
 setInterval(bumpLoop, 1000); // Nasty nasty nasty
