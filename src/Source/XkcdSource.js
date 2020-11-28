@@ -1,9 +1,9 @@
-const axios = require('axios');
-
+import axios from 'axios';
 const {MessageEmbed} = require('discord.js');
-const Source = require('./Source.js');
 
-class XkcdSource extends Source {
+import Source from './Source.js';
+
+export default class XkcdSource extends Source {
     constructor() {
         super(['xkcd']);
     }
@@ -28,5 +28,3 @@ class XkcdSource extends Source {
         return embed;
     }
 }
-
-module.exports = XkcdSource;

@@ -1,4 +1,4 @@
-class Source {
+export default class Source {
     /**
      * @param {string[]} tags  The tags to respond to
      */
@@ -27,5 +27,3 @@ class Source {
         return 'NO MESSAGE DEFINED';
     }
 }
-
-module.exports = Source;

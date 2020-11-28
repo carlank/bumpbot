@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     name: 'autobump',
     description: 'Starts autobumping',
     execute(client, message, args) {

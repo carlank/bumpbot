@@ -1,11 +1,15 @@
-require('dotenv').config();
-const commands = require('./src/commands');
-const BotClient = require('./src/BotClient.js');
+import dotenv from 'dotenv';
+import commands from './src/commands';
+import BotClient from './src/BotClient.js';
+
+dotenv.config();
+
 
 const client = new BotClient();
 
 /* Client event handling for new discord messages */
 client.on('message', message => {
+    console.log(message)
     const {channel, content, author} = message;
 
     /* Always notify the bot that a message was posted to the channel. */

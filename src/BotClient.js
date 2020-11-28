@@ -1,7 +1,6 @@
-const {Client} = require('discord.js');
-const Bot = require('./Bot');
-const XkcdSource = require('./Source/XkcdSource.js');
-
+import {Client} from 'discord.js';
+import Bot from './Bot';
+import XkcdSource from './Source/XkcdSource.js';
 
 /**
  * An extention of the discord.js Client to include a Bot, to simplify modular commands.
@@ -9,7 +8,7 @@ const XkcdSource = require('./Source/XkcdSource.js');
  * @property {string} prefix
  * @property {Bot} bot
  */
-class BotClient extends Client{
+export default class BotClient extends Client{
     constructor({prefix = '!'} = {}){
         super();
 
@@ -21,5 +20,3 @@ class BotClient extends Client{
         this.login();
     }
 }
-
-module.exports = BotClient;

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     name: 'bump',
     description: 'Bumps the channel once',
     execute(client, message) {
