@@ -13,7 +13,7 @@ class XkcdSource extends Source {
      */
     async getMessage() {
         let embed = 'Failed to create new embed';
-        const response = await axios.get('http://xkcd.com/info.0.json')
+        const response = await axios.get('http://xkcd.com/info.0.json');
         const latestComic = response.data['num'];
         const randomComicID = Math.floor((Math.random() * latestComic) + 1);
         if (randomComicID == 404) { randomComicID = 0; } // Avoid 404 page

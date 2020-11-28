@@ -4,4 +4,4 @@ module.exports = {
     execute(client, message, args) {
         message.channel.send('TheCodersThrone');
     }
-}
+};

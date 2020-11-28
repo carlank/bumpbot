@@ -12,10 +12,10 @@ test('fetches the source with the matching tag', done => {
         delay: 10,
         callback: msg => {
             try{
-                expect(msg).toBe('expected')
+                expect(msg).toBe('expected');
                 done();
             } catch (e){
-                done(e)
+                done(e);
             }
         },
         tags: ['tag']

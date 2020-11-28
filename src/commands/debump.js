@@ -2,11 +2,11 @@ module.exports = {
     name: 'debump',
     description: 'Stops autobumping.',
     execute(client, message, args) {
-      const {channel} = message;
-      if(client.bot.removeChannel(channel.id)){
-        channel.send('Stopping autobumping');
-      } else {
-        channel.send(`I wasn't doing anything?`);
-      }
+        const {channel} = message;
+        if(client.bot.removeChannel(channel.id)){
+            channel.send('Stopping autobumping');
+        } else {
+            channel.send('I wasn\'t doing anything?');
+        }
     }
-}
+};

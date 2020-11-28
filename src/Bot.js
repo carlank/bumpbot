@@ -42,7 +42,7 @@ class Bot {
             throw new TypeError('Callback is not a function');
         }
         if(delay < 10){
-            throw `That's too often! Choose a time over 10 seconds.`;
+            throw 'That\'s too often! Choose a time over 10 seconds.';
         }
         this.channels.set(channel, {callback, delay, updated: new Date(), tags});
     }

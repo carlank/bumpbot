@@ -10,16 +10,16 @@ const XkcdSource = require('./Source/XkcdSource.js');
  * @property {Bot} bot
  */
 class BotClient extends Client{
-  constructor({prefix = '!'} = {}){
-    super();
+    constructor({prefix = '!'} = {}){
+        super();
 
-    this.prefix = prefix;
+        this.prefix = prefix;
 
-    this.bot = new Bot();
-    this.bot.addSource(new XkcdSource());
+        this.bot = new Bot();
+        this.bot.addSource(new XkcdSource());
 
-    this.login();
-  }
+        this.login();
+    }
 }
 
 module.exports = BotClient;
