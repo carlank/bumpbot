@@ -24,7 +24,7 @@
     "test": "jest",
     "lint": "eslint .",
     "lintfix": "eslint . --fix",
-    "verify": "npm run test && npm run lintfix",
+    "verify": "npm run lintfix && npm run test",
     "start": "node index.js",
     "babel-node": "babel-node --inspect --presets=@babel/preset-env ",
     "dev": "nodemon --exec npm run babel-node -- index.js"
