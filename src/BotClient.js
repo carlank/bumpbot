@@ -15,7 +15,7 @@ export default class BotClient extends Client{
         this.prefix = prefix;
 
         this.bot = new Bot();
-        this.bot.addSource(new XkcdSource());
+        this.bot.addSource(new XkcdSource(['xkcd']));
 
         this.login();
     }

@@ -4,10 +4,6 @@ const {MessageEmbed} = require('discord.js');
 import Source from './Source.js';
 
 export default class XkcdSource extends Source {
-    constructor() {
-        super(['xkcd']);
-    }
-
     /**
      * @return {string}
      */
