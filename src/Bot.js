@@ -1,5 +1,9 @@
 /**
+ * A Bot class to wrap the various channel and source properties for a bumpbot instance (usually only one).
+ * @class
+ * @property {Map} channels
  * @property {Source[]} sources
+ * @property {number} defaultDelay
  */
 class Bot {
     constructor() {
