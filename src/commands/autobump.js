@@ -7,23 +7,23 @@ module.exports = {
       const firstArgIsNumber = /^\d*$/.test(args[0]);
       let delay, tags;
       if(firstArgIsNumber){
-        delay = args[0];
+        delay = Number(args[0]);
         tags = args.slice(1);
       } else {
         tags = args;
       }
       try {
         const config = {
-          callback: (sourceMsg) => {
+          callback: (sourceMsg = "Autobumptastic") => {
             const {lastMessage} = channel;
             if (lastMessage && lastMessage.author === client.user) {
               lastMessage.delete();
             }
-            channel.send(sourceMsg || 'Autobumptastic');
+            channel.send(sourceMsg);
           }
         };
         if(delay){
-          config.delay = Number(delay);
+          config.delay = delay;
         }
         if(tags){
           config.tags = tags;
