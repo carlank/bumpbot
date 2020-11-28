@@ -65,7 +65,7 @@ class Bot {
             throw new TypeError('Date is not a Date');
         }
         this.channels.forEach(async channel => {
-            if (date.getTime() - channel.updated.getTime() > channel.delay * 1000) {
+            if (date - channel.updated > channel.delay * 1000) {
                 const source = this.chooseSourceFor(channel);
                 channel.callback(source ? await source.getMessage() : undefined);
             }

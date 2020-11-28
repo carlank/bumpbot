@@ -1,54 +1,48 @@
 require('dotenv').config();
 const fs = require("fs");
-const {Client, Collection} = require('discord.js');
-const Bot = require('./src/Bot.js');
-const XkcdSource = require('./src/Source/XkcdSource.js');
+const BotClient = require('./src/BotClient.js');
 
-const client = new Client();
-client.commands = new Collection();
+const client = new BotClient();
 
+const commands = new Map();
 const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
-  const command = require(`./src/commands/${file}`)
-
-  client.commands.set(command.name, command)
+  const command = require(`./src/commands/${file}`);
+  commands.set(command.name, command);
 }
 
-const bot = new Bot();
-module.exports = bot;
-console.log('bot made, about to add')
-bot.addSource(new XkcdSource());
 
-client.on('ready', () => {
-  console.log('READY');
-});
-
+/* Client event handling for new discord messages */
 client.on('message', message => {
-  const prefix = "!";
-  if(!message.content.startsWith(prefix) || message.author.bot) {
+  const {channel, content, author} = message;
+
+  /* Always notify the bot that a message was posted to the channel. */
+  client.bot.notify(channel.id, Date.now());
+
+  /* Otherwise ignore messages that do not begin with the client's prefix or which are from a bot */
+  if(!content.startsWith(client.prefix) || author.bot) {
     return;
   }
-  const args = message.content.slice(prefix.length).split(/ +/)
+  
+  const args = message.content.slice(client.prefix.length).split(/ +/)
   const command = args.shift().toLowerCase()
-  if (!client.commands.has(command)){
+  if (!commands.has(command)){
     return;
   }
 
   try {
-    client.commands.get(command).execute(client, message, args)
+    commands.get(command).execute(client, message, args)
   } catch (e) {
     console.error('Command execution error: ', e);
   }
 });
 
 const bumpLoop = () => {
-  bot.reviveChannels(new Date());
+  client.bot.reviveChannels(Date.now());
 };
 
 setInterval(bumpLoop, 1000); // Nasty nasty nasty
-
-client.login();
 
 process.on('unhandledRejection', error => {
   console.error('Unhandled promise rejection:', error);

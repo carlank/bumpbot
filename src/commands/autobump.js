@@ -1,13 +1,8 @@
-const { bot } = require("../../index")
 module.exports = {
-    name: "autobump",
-    // I'll fix descriptions later
-    description: 'the autobump command',
-
-    async execute(client, message, args) {
+    name: 'autobump',
+    description: 'Starts autobumping',
+    execute(client, message, args) {
       const {channel, content, author} = message;
-      bot.notify(channel.id, new Date());
-
 
       const firstArgIsNumber = /^\d*$/.test(args[0]);
       let delay, tags;
@@ -33,8 +28,8 @@ module.exports = {
         if(tags){
           config.tags = tags;
         }
-        bot.configureChannel(channel.id, config);
-        channel.send(`Autobumping ${tags ? tags.join(', ') + ' ' : ''}every ${config.delay || bot.defaultDelay} seconds!`);
+        client.bot.configureChannel(channel.id, config);
+        channel.send(`Autobumping ${tags ? tags.join(', ') + ' ' : ''}every ${config.delay || client.bot.defaultDelay} seconds!`);
       } catch (e) {
         channel.send(`Not autobumping: ` + e);
       }
