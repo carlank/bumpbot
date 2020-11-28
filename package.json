@@ -25,9 +25,9 @@
     "lint": "eslint .",
     "lintfix": "eslint . --fix",
     "verify": "npm run lintfix && npm run test",
-    "start": "node index.js",
-    "babel-node": "babel-node --inspect --presets=@babel/preset-env ",
-    "dev": "nodemon --exec npm run babel-node -- index.js"
+    "start": "babel-node --presets=@babel/preset-env ./src/index.js",
+    "babel-node-dev": "babel-node --inspect --presets=@babel/preset-env ",
+    "dev": "nodemon --exec npm run babel-node-dev -- ./src/index.js"
   },
   "husky": {
     "hooks": {
