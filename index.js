@@ -1,17 +1,8 @@
 require('dotenv').config();
-const fs = require("fs");
+const commands = require('./src/commands');
 const BotClient = require('./src/BotClient.js');
 
 const client = new BotClient();
-
-const commands = new Map();
-const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
-
-for (const file of commandFiles) {
-  const command = require(`./src/commands/${file}`);
-  commands.set(command.name, command);
-}
-
 
 /* Client event handling for new discord messages */
 client.on('message', message => {
@@ -24,7 +15,7 @@ client.on('message', message => {
   if(!content.startsWith(client.prefix) || author.bot) {
     return;
   }
-  
+
   const args = message.content.slice(client.prefix.length).split(/ +/)
   const command = args.shift().toLowerCase()
   if (!commands.has(command)){
