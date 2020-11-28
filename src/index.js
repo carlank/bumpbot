@@ -1,6 +1,9 @@
-require('dotenv').config();
-const commands = require('./src/commands');
-const BotClient = require('./src/BotClient.js');
+import dotenv from 'dotenv';
+import commands from './commands';
+import BotClient from './BotClient';
+
+dotenv.config();
+
 
 const client = new BotClient();
 

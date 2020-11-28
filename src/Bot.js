@@ -5,7 +5,7 @@
  * @property {Source[]} sources
  * @property {number} defaultDelay
  */
-class Bot {
+export default class Bot {
     constructor() {
         this.channels = new Map();
         this.sources = [];
@@ -99,5 +99,3 @@ class Bot {
         }
     }
 }
-
-module.exports = Bot;

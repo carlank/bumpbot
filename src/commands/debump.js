@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     name: 'debump',
     description: 'Stops autobumping.',
     execute(client, message) {

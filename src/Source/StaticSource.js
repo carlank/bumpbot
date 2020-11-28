@@ -1,6 +1,6 @@
-const Source = require('./Source.js');
+import Source from './Source.js';
 
-class StaticSource extends Source {
+export default class StaticSource extends Source {
     /**
      * @param {string} message The message to respond with
      * @param {string[]} tags  The tags to respond to
@@ -17,5 +17,3 @@ class StaticSource extends Source {
         return this.message;
     }
 }
-
-module.exports = StaticSource;
