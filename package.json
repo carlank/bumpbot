@@ -18,11 +18,12 @@
     "test": "jest",
     "lint": "eslint .",
     "lintfix": "eslint . --fix",
-    "verify": "npm run test && npm run lint",
+    "verify": "npm run test && npm run lintfix",
     "start": "node index.js"
   },
   "husky": {
     "hooks": {
+      "pre-commit": "npm run lintfix",
       "pre-push": "npm run verify"
     }
   },
