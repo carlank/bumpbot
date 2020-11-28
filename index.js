@@ -16,14 +16,14 @@ client.on('message', message => {
     return;
   }
 
-  const args = message.content.slice(client.prefix.length).split(/ +/)
-  const command = args.shift().toLowerCase()
+  const args = message.content.slice(client.prefix.length).split(/ +/);
+  const command = args.shift().toLowerCase();
   if (!commands.has(command)){
     return;
   }
 
   try {
-    commands.get(command).execute(client, message, args)
+    commands.get(command).execute(client, message, args);
   } catch (e) {
     console.error('Command execution error: ', e);
   }
