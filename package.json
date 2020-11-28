@@ -28,7 +28,7 @@
     "verify": "npm run lintfix && npm run test",
     "clean": "echo 'ADD CROSSPLATFORM CLEANING'",
     "build": "npm run clean && babel src -d build",
-    "start": "node build/index.js",
+    "start": "node ./build/index.js",
     "babel-node-dev": "babel-node --inspect --presets=@babel/preset-env ",
     "dev": "nodemon --exec npm run babel-node-dev -- ./src/index.js"
   },
