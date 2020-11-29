@@ -78,7 +78,7 @@ export default class Bot {
 
     /**
      * Configure a new source
-     * @param {StaticSource} source
+     * @param {Source} source
      */
     addSource(source) {
         this.sources.push(source);

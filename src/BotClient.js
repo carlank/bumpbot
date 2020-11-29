@@ -3,7 +3,7 @@ import Bot from './Bot';
 import XkcdSource from './Source/XkcdSource.js';
 
 /**
- * An extention of the discord.js Client to include a Bot, to simplify modular commands.
+ * An extension of the discord.js Client to include a Bot, to simplify modular commands.
  * @class
  * @property {string} prefix
  * @property {Bot} bot
@@ -15,7 +15,7 @@ export default class BotClient extends Client{
         this.prefix = prefix;
 
         this.bot = new Bot();
-        this.bot.addSource(new XkcdSource());
+        this.bot.addSource(new XkcdSource(['xkcd']));
 
         this.login();
     }
