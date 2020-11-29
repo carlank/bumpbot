@@ -4,7 +4,7 @@ import BotClient from './BotClient';
 
 dotenv.config();
 
-const client = new BotClient();
+const client = new BotClient(process.env.PREFIX !== undefined ? {prefix: process.env.PREFIX} : undefined);
 
 /* Client event handling for new discord messages */
 client.on('message', message => {
