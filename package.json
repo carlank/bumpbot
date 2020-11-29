@@ -16,6 +16,7 @@
     "@jest/globals": "latest",
     "@babel/cli": "^7.0.0",
     "babel-jest": "^26.6.3",
+    "core-js": "^3.8.0",
     "eslint": "^7.14.0",
     "husky": "^4.3.0",
     "jest": "^26.6.3",
