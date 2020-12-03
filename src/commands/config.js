@@ -15,7 +15,7 @@ export default {
         try {
             console.log(args)
             const key = args[0];
-            const value = args.slice(0).join(' ')
+            const value = args.slice(1).join(' ')
             switch(key){
                 case 'bump':
                     client.bumpMessage = value;
