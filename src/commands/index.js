@@ -1,11 +1,15 @@
-const fs = require('fs');
+import fs from 'fs';
 
 const commands = new Map();
-const commandFiles = fs.readdirSync(__dirname).filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync(__dirname).filter(file => file.endsWith('.js') && !/^index.js$/.test(file));
 
 for (const file of commandFiles) {
-    const command = require(`./${file}`);
-    commands.set(command.name, command);
+    import(`./${file}`).then(commandModule => {
+        const command = commandModule.default;
+        for(const cmd of command.cmds){
+            commands.set(cmd, command);
+        }
+    });
 }
 
-module.exports = commands;
+export default commands;

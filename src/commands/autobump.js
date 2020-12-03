@@ -1,5 +1,12 @@
-module.exports = {
-    name: 'autobump',
+export default {
+    name: 'Autobump',
+    cmds: ['autobump', 'auto'],
+    args: '[delay] [...tags]',
+    helptext:
+    `Automatically bumps the channel.
+    If \`delay\` is specified, every \`delay\` seconds, or the client default (usually 10 minutes).
+    If \`tags\` are specified, it selects from relevant sources when choosing the bump message.
+    `,
     description: 'Starts autobumping',
     execute(client, message, args) {
         const {channel} = message;

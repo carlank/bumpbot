@@ -1,4 +1,4 @@
-const Bot = require('../src/Bot.js');
+import Bot from '../src/Bot.js';
 
 test('overrides configuration when configuring an already configured channel', () => {
     let message = '';

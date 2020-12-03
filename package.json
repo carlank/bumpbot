@@ -2,24 +2,36 @@
   "name": "bumpbot",
   "version": "0.0.1",
   "description": "A basic Discord bot, by the community at The Coding boi",
-  "main": "index.js",
   "dependencies": {
     "axios": "^0.21.0",
+    "core-js": "^3.8.0",
     "discord.js": "^12.5.0",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "ffmpeg-static": "^4.2.7",
+    "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@babel/node": "^7.12.6",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/preset-env": "^7.12.7",
     "@jest/globals": "latest",
+    "@babel/cli": "^7.0.0",
+    "babel-jest": "^26.6.3",
     "eslint": "^7.14.0",
     "husky": "^4.3.0",
     "jest": "^26.6.3"
   },
   "scripts": {
     "test": "jest",
-    "lint": "eslint .",
-    "lintfix": "eslint . --fix",
-    "verify": "npm run test && npm run lintfix",
-    "start": "node index.js"
+    "lint": "eslint src",
+    "lintfix": "eslint src --fix",
+    "verify": "npm run lintfix && npm run test",
+    "clean": "echo 'ADD CROSSPLATFORM CLEANING'",
+    "build": "npm run clean && babel src -d build",
+    "start": "node ./build/index.js",
+    "babel-node-dev": "babel-node --inspect --presets=@babel/preset-env ",
+    "dev": "nodemon --exec npm run babel-node-dev -- ./src/index.js"
   },
   "husky": {
     "hooks": {

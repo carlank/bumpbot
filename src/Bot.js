@@ -5,7 +5,7 @@
  * @property {Source[]} sources
  * @property {number} defaultDelay
  */
-class Bot {
+export default class Bot {
     constructor() {
         this.channels = new Map();
         this.sources = [];
@@ -78,7 +78,7 @@ class Bot {
 
     /**
      * Configure a new source
-     * @param {StaticSource} source
+     * @param {Source} source
      */
     addSource(source) {
         this.sources.push(source);
@@ -87,17 +87,19 @@ class Bot {
     /**
      * Chooses a relevant source for the channel
      * @param {Object} channel
-     * @return {Source}
-     * @todo pick one at random
+     * @return {Source | undefined}
      * @todo add weighted random, where weight is # of tags in common
      */
     chooseSourceFor(channel) {
+        const validSources = [];
         for (const source of this.sources) {
             if (source.isRelevantToAnyOfThese(channel.tags)) {
-                return source;
+                validSources.push(source);
             }
         }
+        if(validSources.length){
+            return validSources[Math.floor(Math.random() * validSources.length)];
+        }
+        return;
     }
 }
-
-module.exports = Bot;

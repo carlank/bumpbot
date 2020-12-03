@@ -1,5 +1,5 @@
-const Bot = require('../src/Bot.js');
-const StaticSource = require('../src/Source/StaticSource.js');
+import Bot from '../src/Bot.js';
+import StaticSource from '../src/Source/StaticSource.js';
 
 test('fetches the source with the matching tag', done => {
     const bot = new Bot();
